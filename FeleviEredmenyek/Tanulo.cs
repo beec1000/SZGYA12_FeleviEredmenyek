@@ -8,23 +8,34 @@ namespace FeleviEredmenyek
     class Tanulo
     {
         public string Neve { get; set; }
-        public int Azonosito { get; set; }
-        public Dictionary<string, int> Jegyek { get; set; }
+        public long Azonosito { get; set; }
+        public Dictionary<string, List<int>> Jegyek { get; set; }
 
-        public Tanulo(string sor)
+        //public double Atlag => 
+
+        public Tanulo(string sor, List<string> tantargyak)
         {
             var v = sor.Split(' ');
             this.Neve = v[0];
-            this.Azonosito = int.Parse(v[1]);
+            this.Azonosito = long.Parse(v[1]);
+            this.Jegyek = new Dictionary<string, List<int>>();
             for (int i = 2; i < v.Length; i += 2)
             {
-                this.Jegyek[v[i]] = int.Parse(v[i + 1]);
+                string tantargy = tantargyak[i - 2];
+                int jegy = int.Parse(v[i]);
+
+                if (!Jegyek.ContainsKey(tantargy))
+                {
+                    Jegyek[tantargy] = new List<int>();
+                }
+
+                Jegyek[tantargy].Add(jegy);
             }
         }
 
-        static void Atlag(int j)
+        public override string ToString()
         {
-            var x = 
+            return $"{this.Neve}, {this.Azonosito}, {this.Jegyek}";
         }
 
     }
